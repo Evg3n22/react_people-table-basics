@@ -1,6 +1,6 @@
 // import { Loader } from './components/Loader';
 
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.scss';
 import { People } from './components/People';
 import cn from 'classnames';
@@ -19,27 +19,27 @@ export const App = () => {
       >
         <div className="container">
           <div className="navbar-brand">
-            <a
+            <Link
               className={cn(
                 'navbar-item',
                 currentPath === '/' ? 'has-background-grey-lighter' : '',
               )}
-              href="#/"
+              to="/"
             >
               Home
-            </a>
+            </Link>
 
-            <a
+            <Link
               className={cn(
                 'navbar-item',
                 currentPath.includes('/people')
                   ? 'has-background-grey-lighter'
                   : '',
               )}
-              href="#/people"
+              to="/people"
             >
               People
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -49,8 +49,10 @@ export const App = () => {
           <Routes>
             <Route path="/" element={<h1 className="title">Home Page</h1>} />
             <Route path="/home" element={<Navigate to="/" replace />} />
-            <Route path="/people" element={<People />} />
-            <Route path="/people/:slug" element={<People />} />
+            <Route path="/people" element={<People />}>
+              <Route index element={<People />} />
+              <Route path=":slug" element={<People />} />
+            </Route>
             <Route
               path="*"
               element={<h1 className="title">Page not found</h1>}
