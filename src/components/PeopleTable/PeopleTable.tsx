@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { getPeople } from '../../api';
 import { Person } from '../../types';
-import cn from 'classnames';
-import { Link, useParams } from 'react-router-dom';
+// import cn from 'classnames';
+// import { Link, useParams } from 'react-router-dom';
+import { PersonLink } from '../PersonLink';
 
 export const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const { slug } = useParams();
+  // const { slug } = useParams();
 
   useEffect(() => {
     setIsLoading(true);
@@ -64,63 +65,13 @@ export const PeopleTable = () => {
               </thead>
 
               <tbody>
-                {people?.map(person => {
-                  const mother = peopleByName.get(person.motherName as string);
-                  const father = peopleByName.get(person.fatherName as string);
-
-                  return (
-                    <tr
-                      data-cy="person"
-                      key={person.name}
-                      className={cn(
-                        slug === person.slug ? 'has-background-warning' : '',
-                      )}
-                    >
-                      <td>
-                        <Link
-                          to={`${person.slug}`}
-                          className={cn(
-                            person.sex === 'f' ? 'has-text-danger' : '',
-                          )}
-                        >
-                          {person.name}
-                        </Link>
-                      </td>
-
-                      <td>{person.sex}</td>
-                      <td>{person.born}</td>
-                      <td>{person.died}</td>
-                      <td>
-                        {mother ? (
-                          <Link
-                            to={`${mother.slug}`}
-                            className={cn(
-                              mother.sex === 'f' ? 'has-text-danger' : '',
-                            )}
-                          >
-                            {mother.name}
-                          </Link>
-                        ) : (
-                          person.motherName || '-'
-                        )}
-                      </td>
-                      <td>
-                        {father ? (
-                          <Link
-                            to={`${father.slug}`}
-                            className={cn(
-                              father.sex === 'f' ? 'has-text-danger' : '',
-                            )}
-                          >
-                            {father.name}
-                          </Link>
-                        ) : (
-                          person.fatherName || '-'
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {people?.map(person => (
+                  <PersonLink
+                    person={person}
+                    key={person.slug}
+                    peopleByName={peopleByName}
+                  />
+                ))}
               </tbody>
             </table>
           )}

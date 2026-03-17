@@ -4,6 +4,7 @@ import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.scss';
 import { People } from './components/People';
 import cn from 'classnames';
+import { PeopleTable } from './components/PeopleTable';
 
 export const App = () => {
   const location = useLocation();
@@ -50,8 +51,8 @@ export const App = () => {
             <Route path="/" element={<h1 className="title">Home Page</h1>} />
             <Route path="/home" element={<Navigate to="/" replace />} />
             <Route path="/people" element={<People />}>
-              <Route index element={<People />} />
-              <Route path=":slug" element={<People />} />
+              <Route index element={<PeopleTable />} />
+              <Route path=":slug" element={<PeopleTable />} />
             </Route>
             <Route
               path="*"
